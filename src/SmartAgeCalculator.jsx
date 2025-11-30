@@ -100,10 +100,10 @@ const SmartAgeCalculator = () => {
     // Create initial floating images
     const createFloatingImage = () => {
       if (backgroundImages.length === 0) return null;
-      
+
       const imageId = Date.now() + Math.random();
       const randomImage = backgroundImages[Math.floor(Math.random() * backgroundImages.length)];
-      
+
       return {
         id: imageId,
         src: randomImage,
@@ -149,11 +149,11 @@ const SmartAgeCalculator = () => {
     const cleanupInterval = setInterval(() => {
       setFloatingBackgroundImages(prev => {
         // Remove images that are too far off screen
-        const filtered = prev.filter(img => 
+        const filtered = prev.filter(img =>
           img.x > -200 && img.x < window.innerWidth + 200 &&
           img.y > -200 && img.y < window.innerHeight + 200
         );
-        
+
         // Add new image if needed
         if (filtered.length < 8 && Math.random() > 0.5) {
           const newImage = createFloatingImage();
@@ -161,7 +161,7 @@ const SmartAgeCalculator = () => {
             return [...filtered, newImage];
           }
         }
-        
+
         return filtered;
       });
     }, 5000);
@@ -181,14 +181,14 @@ const SmartAgeCalculator = () => {
 
   useEffect(() => {
     if (logsEndRef.current) {
-      logsEndRef.current.scrollIntoView({ behavior: "smooth" });
+      logsEndRef.current.scrollIntoView({ behavior: "smooth", block: "nearest" });
     }
   }, [logs]);
 
   // Track mouse movement for cursor trails
   useEffect(() => {
     if (showWarning) return;
-    
+
     const handleMouseMove = (e) => {
       const trailId = Date.now() + Math.random();
       setCursorTrails(prev => [...prev, {
@@ -197,7 +197,7 @@ const SmartAgeCalculator = () => {
         y: e.clientY,
         opacity: 1
       }]);
-      
+
       // Remove trail after animation
       setTimeout(() => {
         setCursorTrails(prev => prev.filter(trail => trail.id !== trailId));
@@ -211,21 +211,20 @@ const SmartAgeCalculator = () => {
   // Generate fake cursors
   useEffect(() => {
     if (showWarning) return;
-    
+
     const cursorInterval = setInterval(() => {
-        const cursorId = Date.now() + Math.random();
-        setFakeCursors(prev => [...prev, {
-          id: cursorId,
-          x: Math.random() * window.innerWidth,
-          y: Math.random() * window.innerHeight,
-          vx: (Math.random() - 0.5) * 4,
-          vy: (Math.random() - 0.5) * 4
-        }]);
-        
-        setTimeout(() => {
-          setFakeCursors(prev => prev.filter(cursor => cursor.id !== cursorId));
-        }, 5000);
-      }
+      const cursorId = Date.now() + Math.random();
+      setFakeCursors(prev => [...prev, {
+        id: cursorId,
+        x: Math.random() * window.innerWidth,
+        y: Math.random() * window.innerHeight,
+        vx: (Math.random() - 0.5) * 4,
+        vy: (Math.random() - 0.5) * 4
+      }]);
+
+      setTimeout(() => {
+        setFakeCursors(prev => prev.filter(cursor => cursor.id !== cursorId));
+      }, 5000);
     }, 2000);
 
     return () => clearInterval(cursorInterval);
@@ -234,7 +233,7 @@ const SmartAgeCalculator = () => {
   // Move fake cursors
   useEffect(() => {
     if (showWarning || fakeCursors.length === 0) return;
-    
+
     const moveInterval = setInterval(() => {
       setFakeCursors(prev => prev.map(cursor => ({
         ...cursor,
@@ -251,7 +250,7 @@ const SmartAgeCalculator = () => {
   // Screen shake effect
   useEffect(() => {
     if (showWarning) return;
-    
+
     const shakeInterval = setInterval(() => {
       if (Math.random() > 0.7) {
         setScreenShake(true);
@@ -265,7 +264,7 @@ const SmartAgeCalculator = () => {
   // Fake download bars
   useEffect(() => {
     if (showWarning) return;
-    
+
     const downloadInterval = setInterval(() => {
       if (Math.random() > 0.6) {
         const downloadId = Date.now() + Math.random();
@@ -274,15 +273,15 @@ const SmartAgeCalculator = () => {
           progress: 0,
           filename: `virus_${Math.floor(Math.random() * 1000)}.exe`
         }]);
-        
+
         const progressInterval = setInterval(() => {
-          setFakeDownloads(prev => prev.map(dl => 
-            dl.id === downloadId 
+          setFakeDownloads(prev => prev.map(dl =>
+            dl.id === downloadId
               ? { ...dl, progress: Math.min(100, dl.progress + Math.random() * 10) }
               : dl
           ));
         }, 200);
-        
+
         setTimeout(() => {
           clearInterval(progressInterval);
           setFakeDownloads(prev => prev.filter(dl => dl.id !== downloadId));
@@ -296,7 +295,7 @@ const SmartAgeCalculator = () => {
   // Fake typing indicator
   useEffect(() => {
     if (showWarning) return;
-    
+
     const typingMessages = [
       "Đang gõ...",
       "Đang nhập...",
@@ -304,7 +303,7 @@ const SmartAgeCalculator = () => {
       "Đang lấy dữ liệu...",
       "Đang xâm nhập..."
     ];
-    
+
     const typingInterval = setInterval(() => {
       if (Math.random() > 0.7) {
         const message = typingMessages[Math.floor(Math.random() * typingMessages.length)];
@@ -319,7 +318,7 @@ const SmartAgeCalculator = () => {
   // Glitch text effect
   useEffect(() => {
     if (showWarning) return;
-    
+
     const glitchInterval = setInterval(() => {
       if (Math.random() > 0.8) {
         setGlitchText(true);
@@ -333,12 +332,12 @@ const SmartAgeCalculator = () => {
   // Floating icons effect - using background images
   useEffect(() => {
     if (showWarning || backgroundImages.length === 0) return;
-    
+
     const iconInterval = setInterval(() => {
       if (Math.random() > 0.5) {
         const iconId = Date.now() + Math.random();
         const randomImage = backgroundImages[Math.floor(Math.random() * backgroundImages.length)];
-        
+
         setFloatingIcons(prev => [...prev, {
           id: iconId,
           x: Math.random() * window.innerWidth,
@@ -350,7 +349,7 @@ const SmartAgeCalculator = () => {
           rotationSpeed: (Math.random() - 0.5) * 5,
           src: randomImage
         }]);
-        
+
         setTimeout(() => {
           setFloatingIcons(prev => prev.filter(icon => icon.id !== iconId));
         }, 8000);
@@ -364,7 +363,7 @@ const SmartAgeCalculator = () => {
   // Move floating icons
   useEffect(() => {
     if (showWarning || floatingIcons.length === 0) return;
-    
+
     const moveInterval = setInterval(() => {
       setFloatingIcons(prev => prev.map(icon => ({
         ...icon,
@@ -382,7 +381,7 @@ const SmartAgeCalculator = () => {
   // Generate annoying popups continuously
   useEffect(() => {
     if (showWarning) return; // Don't show popups during warning
-    
+
     const popupInterval = setInterval(() => {
       if (Math.random() > 0.2) { // 80% chance to spawn popup - more annoying!
         const message = annoyingMessages[Math.floor(Math.random() * annoyingMessages.length)];
@@ -390,7 +389,7 @@ const SmartAgeCalculator = () => {
         const left = Math.random() * 75 + 5; // 5% to 80% of screen width
         const top = Math.random() * 75 + 5; // 5% to 80% of screen height
         const rotation = (Math.random() - 0.5) * 45; // -22.5 to 22.5 degrees
-        
+
         setAnnoyingPopups(prev => [...prev, {
           id: popupId,
           message,
@@ -402,7 +401,7 @@ const SmartAgeCalculator = () => {
 
         // Remove popup after 2-4 seconds
         setTimeout(() => {
-          setAnnoyingPopups(prev => prev.map(popup => 
+          setAnnoyingPopups(prev => prev.map(popup =>
             popup.id === popupId ? { ...popup, opacity: 0 } : popup
           ));
           setTimeout(() => {
@@ -419,13 +418,13 @@ const SmartAgeCalculator = () => {
   useEffect(() => {
     if (loading) {
       setFakeIP(generateFakeIP());
-      
+
       const alertInterval = setInterval(() => {
         if (Math.random() > 0.7) {
           const randomAlert = fakeAlertMessages[Math.floor(Math.random() * fakeAlertMessages.length)];
           const alertId = Date.now() + Math.random();
           setFakeAlerts(prev => [...prev, { id: alertId, message: randomAlert }]);
-          
+
           setTimeout(() => {
             setFakeAlerts(prev => prev.filter(alert => alert.id !== alertId));
           }, 3000);
@@ -448,61 +447,55 @@ const SmartAgeCalculator = () => {
   }, [loading]);
 
   const fakeLogs = [
-    "KHỞI ĐỘNG GIAO THỨC HACKERMAN...",
-    "BYPASSING NSA FIREWALL...",
-    "ĐANG XÂM NHẬP HỆ THỐNG NGÂN HÀNG...",
-    "TẢI RAM TỪ DARK WEB...",
-    "PHÂN TÍCH DNA TỪ BÀN PHÍM...",
-    "ĐANG GHI LẠI MỌI PHÍM BẠN NHẤN...",
-    "ĐÃ CHỤP MÀN HÌNH CỦA BẠN...",
-    "ĐÃ TRUY CẬP CAMERA VÀ MICROPHONE...",
-    "ĐANG ĐÀO BITCOIN BẰNG CPU CỦA BẠN...",
-    "ĐÃ TẢI LỊCH SỬ DUYỆT WEB LÊN SERVER...",
-    "ĐÃ SAO CHÉP CLIPBOARD CỦA BẠN...",
-    "ĐÃ LẤY MẬT KHẨU TỪ TRÌNH DUYỆT...",
-    "ĐÃ XÁC ĐỊNH VỊ TRÍ CỦA BẠN...",
-    "ĐANG THEO DÕI CON TRỎ CHUỘT...",
-    "GIẢI MÃ FILE MẬT CỦA CHÍNH PHỦ...",
-    "TRUY CẬP DATABASE AREA 51...",
-    "ĐANG HACK VÀO SERVER NASA...",
-    "TẢI CẮP DỮ LIỆU CÁ NHÂN...",
-    "BYPASSING ANTI-VIRUS...",
-    "ĐANG XÓA LOG LỊCH SỬ...",
-    "TẢI VIRUS TỪ TOR NETWORK...",
-    "GIẢI MÃ MẬT KHẨU WIFI HÀNG XÓM...",
-    "HACK VÀO TÀI KHOẢN FACEBOOK...",
-    "HACK VÀO TÀI KHOẢN INSTAGRAM...",
-    "HACK VÀO TÀI KHOẢN TIKTOK...",
-    "TẢI CẮP CREDIT CARD INFO...",
-    "BYPASSING TWO-FACTOR AUTHENTICATION...",
-    "ĐANG XÓA BẰNG CHỨNG...",
-    "TRUY CẬP DATABASE CỤC AN NINH...",
-    "TẤT CẢ FILE CỦA BẠN ĐÃ BỊ MÃ HÓA...",
-    "ĐANG GỬI DỮ LIỆU ĐẾN SERVER NGA...",
-    "FBI ĐÃ ĐƯỢC THÔNG BÁO...",
-    "TÍNH TOÁN ĐẾN SỐ THẬP PHÂN CUỐI CÙNG...",
-    "ĐANG HỎI CHAT-GPT 1...",
-    "COMPILING STUPIDITY METRICS...",
-    "ERROR: NGƯỜI DÙNG QUÁ COOL. RETRYING...",
-    "HOÀN TẤT DATA PACKETS..."
+    "Từ từ, mạng nhà bạn lag vãi chưởng...",
+    "Ây da, đoạn code này ai viết mà ngu thế nhỉ... à là mình.",
+    "Đang thử mò pass wifi nhà hàng xóm... 12345678 không được à?",
+    "Ê khoan, hình như bạn chưa xóa lịch sử duyệt web kìa? Toang!",
+    "Đợi tí nhé, đang order ly trà sữa đã, khát quá.",
+    "Alo alo, tổng đài Anime xin nghe... nhầm số rồi bạn ơi.",
+    "Đang tính tuổi... nhưng mà nhìn mặt bạn uy tín thế này chắc 2k5 hả?",
+    "Chạy ngầm tí đào coin nhé, máy bạn khỏe mà lo gì.",
+    "Ước gì được Isekai sang thế giới khác chứ ngồi code mệt vãi...",
+    "Đang lục lọi folder 'Tài Liệu Học Tập'... ủa sao toàn video MP4 thế này?",
+    "Hack vệ tinh NASA... thôi đùa đấy, hack cái máy tính casio thôi.",
+    "Check var xem bạn có phải Wibu không... Á dù, nồng nặc mùi!",
+    "Đang gọi Doraemon... Alo, cho mượn cỗ máy thời gian check tuổi cái.",
+    "Mạng mẽo chán đời thế, quay đều quay đều...",
+    "Đang tải RAM về... ủa quên, RAM làm sao mà tải được nhỉ?",
+    "Suỵt! Bé mồm thôi, mẹ bạn đang đi vào phòng kìa!",
+    "Đang scan khuôn mặt... hmm, giao diện này hơi khó ưa nha.",
+    "Cầu trời khấn phật cho code không bị bug...",
+    "Đang bật mode 'Nghiêm túc'... đùa thôi, làm gì có mode đấy.",
+    "Loading... Loading... Chờ tí làm gì mà căng?",
+    "Đang hỏi Chat GPT xem bạn bao nhiêu tuổi... nó bảo không biết.",
+    "Đang bận xem nốt tập One Piece, chờ 5 phút nhé.",
+    "Kích hoạt tường lửa... à nhầm, kích hoạt tường thạch cao.",
+    "Đang spam nút F5... máy bạn sắp bốc khói chưa?",
+    "Tìm kiếm người yêu cho bạn... Kết quả: 404 Not Found (Cay!)",
+    "Đang múa Yone 0/10/0 trong server máy bạn...",
+    "Xong chưa nhỉ? Chưa xong, đợi thêm tí đi.",
+    "Đang lấy vân tay qua màn hình cảm ứng... đùa đấy, tin người vcl."
   ];
 
   const fakeAlertMessages = [
-    "⚠️ CẢNH BÁO: VIRUS ĐÃ ĐƯỢC PHÁT HIỆN!",
-    "🚨 FBI ĐANG THEO DÕI BẠN!",
-    "💀 TẤT CẢ FILE CỦA BẠN SẼ BỊ XÓA SAU 10 GIÂY!",
-    "🔥 HỆ THỐNG ĐANG BỊ TẤN CÔNG!",
-    "⚡ ĐÃ PHÁT HIỆN HOẠT ĐỘNG ĐÁNG NGỜ!",
-    "🎯 IP CỦA BẠN ĐÃ BỊ TRUY VẾT!",
-    "💣 BOM LOGIC ĐÃ ĐƯỢC KÍCH HOẠT!",
-    "🌐 ĐANG KẾT NỐI ĐẾN DARK WEB...",
-    "🔐 MẬT KHẨU CỦA BẠN ĐÃ BỊ LỘ!",
-    "📸 CAMERA CỦA BẠN ĐANG BẬT!",
-    "🎤 MICROPHONE ĐANG GHI ÂM!",
-    "💰 TÀI KHOẢN NGÂN HÀNG CỦA BẠN ĐÃ BỊ TRỐNG!",
-    "📱 TẤT CẢ ẢNH TRONG ĐIỆN THOẠI ĐÃ BỊ TẢI LÊN!",
-    "🖥️ MÀN HÌNH CỦA BẠN ĐANG ĐƯỢC QUAY LẠI!",
-    "🌍 VỊ TRÍ CỦA BẠN: 10.123.45.67 - HÀ NỘI, VIỆT NAM"
+    "Ê Ê! Bấm nhẹ thôi hỏng chuột bây giờ!",
+    "Cảnh báo: Phát hiện độ đẹp trai/xinh gái bằng 0!",
+    "Alo? Cảnh sát chính tả đây, bạn vừa gõ sai đúng không?",
+    "Toang rồi ông giáo ạ! Lộ hết bí mật rồi!",
+    "Waifu của bạn không có thật đâu, tỉnh lại đi bạn ơi!",
+    "Máy này sắp tự hủy trong 3... 2... 1... BÙM! (Đùa đấy)",
+    "Phát hiện mùi 'Simp chúa' quanh đây! Là bạn đúng không?",
+    "Nạp lần đầu đi bạn, web này hút máu lắm!",
+    "Cẩn thận! Mẹ bạn đang đứng sau lưng kìa (Check map đi)!",
+    "Đừng nhìn tôi bằng ánh mắt đấy, ngại quá >///<",
+    "Bạn có chắc là muốn biết sự thật không? Đau lòng lắm đấy.",
+    "Đang xem cái gì đấy? Tắt tab ẩn danh đi nhanh lên!",
+    "Bankai!!! À quên, nhầm kịch bản.",
+    "Có làm thì mới có ăn, không làm mà đòi biết tuổi à?",
+    "Yamete kudasai~ Đừng click nữa đau em!",
+    "Phát hiện liêm sỉ của bạn đã rớt đâu đó quanh đây.",
+    "Ơ kìa? Sao lại nhập số này? Bị ngáo à?",
+    "Server đang quá tải vì sự 'lỏ' của bạn!"
   ];
 
   const generateFakeIP = () => {
@@ -545,19 +538,19 @@ const SmartAgeCalculator = () => {
 
   const handleCalculate = () => {
     console.log('Button clicked!', { age });
-    
+
     if (!age || age.trim() === '') {
-      alert("NICE TRY, FBI. NHẬP TUỔI VÀO ĐI!");
+      alert("CLM CHƯA NHẬP cailonqu GÌ SAO TÍNH, FBI À?!?");
       return;
     }
 
     const numAge = parseInt(age);
-    const isNaN = isNaN(numAge);
-    
-    console.log('Parsed age:', numAge, 'isNaN:', isNaN);
-    
+    const isAgeInvalid = Number.isNaN(numAge);
+
+    console.log('Parsed age:', numAge, 'isNaN:', isAgeInvalid);
+
     // Check for special cases first
-    if (isNaN) {
+    if (isAgeInvalid) {
       // Nhập chữ - show error message
       setTrollMessage(getRandomMessage('error'));
       setResult(null);
@@ -606,7 +599,7 @@ const SmartAgeCalculator = () => {
 
   const finishHack = (ageNum) => {
     setLoading(false);
-    
+
     // Confetti explosion
     const duration = 3 * 1000;
     const end = Date.now() + duration;
@@ -650,18 +643,18 @@ const SmartAgeCalculator = () => {
     return (
       <div className="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50">
         <div className="bg-red-600 text-white p-8 border-4 border-yellow-400 rounded-none shadow-[0_0_0_10px_#ff0000]">
-          <h2 className="text-2xl font-bold mb-4" style={{fontFamily: 'Comic Sans MS'}}>CẢNH BÁO ĐỘNG KINH!!!</h2>
-          <p className="mb-4" style={{fontFamily: 'Courier New'}}>Trang web này chứa ánh sáng nhấp nháy và có thể gây co giật. Tiếp tục với rủi ro của bạn!</p>
-          <button onClick={() => setShowWarning(false)} className="bg-green-500 text-black px-4 py-2 border-2 border-black font-bold" style={{fontFamily: 'Comic Sans MS'}}>TÔI CHẤP NHẬN RỦI RO</button>
+          <h2 className="text-2xl font-bold mb-4" style={{ fontFamily: 'Comic Sans MS' }}>CẢNH BÁO ĐỘNG KINH VÀ TỰ KỶ!!!</h2>
+          <p className="mb-4" style={{ fontFamily: 'Courier New' }}>Nói chung đây là một cái cảnh báo, thế đấy :v</p>
+          <button onClick={() => setShowWarning(false)} className="bg-green-500 text-black px-4 py-2 border-2 border-black font-bold" style={{ fontFamily: 'Comic Sans MS' }}>TÔI CHẤP NHẬN RỦI RO</button>
         </div>
       </div>
     );
   }
 
   return (
-    <div 
+    <div
       ref={containerRef}
-      className="min-h-screen w-full p-4 flex flex-col items-center justify-center font-mono overflow-hidden relative" 
+      className="min-h-screen w-full p-4 flex flex-col items-center justify-center font-mono overflow-hidden relative"
       style={{
         background: 'linear-gradient(45deg, #ff0000, #ff7f00, #ffff00, #00ff00, #0000ff, #4b0082, #9400d3, #ff0000)',
         backgroundSize: '400% 400%',
@@ -860,9 +853,9 @@ const SmartAgeCalculator = () => {
         >
           <div className="text-lime-500 text-sm mb-1">📥 Đang tải: {download.filename}</div>
           <div className="w-full bg-gray-800 h-4 border border-lime-500">
-            <div 
+            <div
               className="bg-lime-500 h-full transition-all duration-200"
-              style={{ 
+              style={{
                 width: `${download.progress}%`,
                 boxShadow: '0 0 10px rgba(57,255,20,0.8)'
               }}
@@ -874,7 +867,7 @@ const SmartAgeCalculator = () => {
 
       {/* Fake Typing Indicator */}
       {fakeTyping && (
-        <div 
+        <div
           className="fixed bottom-20 right-4 bg-black border-2 border-pink-500 p-3 z-[80] animate-blink"
           style={{ fontFamily: 'Courier New' }}
         >
@@ -884,10 +877,10 @@ const SmartAgeCalculator = () => {
 
       {/* Annoying Popup Texts */}
       {annoyingPopups.map((popup) => {
-        const randomBgImage = backgroundImages.length > 0 
+        const randomBgImage = backgroundImages.length > 0
           ? backgroundImages[Math.floor(Math.random() * backgroundImages.length)]
           : mainIcon;
-        
+
         return (
           <div
             key={popup.id}
@@ -904,9 +897,9 @@ const SmartAgeCalculator = () => {
             }}
           >
             {backgroundImages.length > 0 && (
-              <img 
-                src={randomBgImage} 
-                alt="popup icon" 
+              <img
+                src={randomBgImage}
+                alt="popup icon"
                 className="w-6 h-6 animate-spin"
                 style={{ filter: 'drop-shadow(0 0 5px rgba(255,0,0,0.8))' }}
               />
@@ -948,12 +941,12 @@ const SmartAgeCalculator = () => {
       {/* Marquee Header */}
       <div className="fixed top-0 left-0 w-full bg-black border-b-4 border-lime-500 z-50">
         <marquee className="text-lime-500 font-bold text-xl py-2 font-['Courier_New']">
-          ⚠️ ĐĂNG KHOA - BẬC THẦY LẬP TRÌNH - THIÊN TÀI CÔNG NGHỆ - HACKER HÀNG ĐẦU VIỆT NAM - LEGEND KHÔNG BAO GIỜ CHẾT - GOD TIER DEVELOPER - KING OF CODE - MASTER OF ALL ALGORITHMS ⚠️
+          ⚠️ ĐĂNG KHOA - THE GLITCH IN THE MATRIX - OTAKU HỆ ĐIỀU HÀNH - CODE BẰNG TÂM LINH, FIX BUG BẰNG NƯỚC MẮT - TOP 1 SERVER LOCALHOST - HACKER SỐ 1 VIỆT NAM (TỰ PHONG) - ĐANG BẬN CỨU THẾ GIỚI KHỎI MA VƯƠNG DEADLINE - PLAYER: ĐĂNG KHOA [LV. 9999] - CLASS: PHÁP SƯ CÔNG NGHỆ (HỆ LỬA/CHÁY MÁY) - DANH HIỆU: 'THÁNH BUG VIỆT NAM' - SỞ HỮU VŨ KHÍ TỐI THƯỢNG: BÀN PHÍM RGB TĂNG 200% SÁT THƯƠNG VẬT LÝ LÊN MÀN HÌNH. ⚠️
         </marquee>
       </div>
 
       {/* Main Container */}
-      <div 
+      <div
         className="relative z-10 bg-black border-8 border-double p-8 max-w-2xl w-full transform"
         style={{
           animation: 'borderGlow 3s ease-in-out infinite, borderPulse 4s ease-in-out infinite, boxFloat 6s ease-in-out infinite',
@@ -964,7 +957,7 @@ const SmartAgeCalculator = () => {
         }}
       >
         {/* Scan Line Effect */}
-        <div 
+        <div
           className="absolute inset-0 pointer-events-none"
           style={{
             background: 'linear-gradient(to bottom, transparent 0%, rgba(57,255,20,0.1) 50%, transparent 100%)',
@@ -981,7 +974,7 @@ const SmartAgeCalculator = () => {
         <div className="absolute bottom-0 right-0 w-8 h-8 border-b-4 border-r-4 border-lime-500" style={{ animation: 'cornerFlash 2s ease-in-out infinite 1.5s' }} />
 
         {/* Animated Background Pattern */}
-        <div 
+        <div
           className="absolute inset-0 opacity-10 pointer-events-none"
           style={{
             backgroundImage: `
@@ -1014,219 +1007,223 @@ const SmartAgeCalculator = () => {
 
         {/* Content Wrapper */}
         <div className="relative" style={{ zIndex: 100, position: 'relative' }}>
-        <div className="relative flex items-center justify-center mb-8">
-          <img 
-            src={mainIcon} 
-            alt="icon" 
-            className="absolute -left-20 md:-left-32 w-16 h-16 md:w-24 md:h-24 animate-spin"
-            style={{ filter: 'drop-shadow(0 0 10px rgba(57,255,20,0.8))' }}
-          />
-          <h1 className={`text-5xl md:text-7xl font-bold text-center text-transparent bg-clip-text bg-gradient-to-r from-lime-400 to-pink-500 font-['Comic_Sans_MS'] animate-pulse drop-shadow-[0_0_10px_rgba(57,255,20,0.8)] ${glitchText ? 'glitch-text' : ''}`}>
-            QUANTUM-NEURAL-AGE-PREDICTOR
-          </h1>
-          <img 
-            src="/secondary-icon.jpg" 
-            alt="icon" 
-            className="absolute -right-20 md:-right-32 w-16 h-16 md:w-24 md:h-24 animate-spin"
-            style={{ 
-              filter: 'drop-shadow(0 0 10px rgba(255,0,255,0.8))',
-              animationDirection: 'reverse'
-            }}
-          />
-        </div>
+          <div className="relative flex items-center justify-center mb-8">
+            <img
+              src={mainIcon}
+              alt="icon"
+              className="absolute -left-20 md:-left-32 w-16 h-16 md:w-24 md:h-24 animate-spin"
+              style={{ filter: 'drop-shadow(0 0 10px rgba(57,255,20,0.8))' }}
+            />
+            <h1 className={`text-5xl md:text-7xl font-bold text-center text-transparent bg-clip-text bg-gradient-to-r from-lime-400 to-pink-500 font-['Comic_Sans_MS'] animate-pulse drop-shadow-[0_0_10px_rgba(57,255,20,0.8)] ${glitchText ? 'glitch-text' : ''}`}>
+              QUANTUM-NEURAL-AGE-PREDICTOR
+            </h1>
+            <img
+              src="/secondary-icon.jpg"
+              alt="icon"
+              className="absolute -right-20 md:-right-32 w-16 h-16 md:w-24 md:h-24 animate-spin"
+              style={{
+                filter: 'drop-shadow(0 0 10px rgba(255,0,255,0.8))',
+                animationDirection: 'reverse'
+              }}
+            />
+          </div>
 
-        {!loading && !result && (
-          <div className="flex flex-col gap-6" style={{ position: 'relative', zIndex: 100 }}>
-            <div className="relative group">
-              {/* Decorative Elements Around Input */}
-              <div className="absolute -top-8 left-0 right-0 flex justify-between pointer-events-none">
-                <Skull size={32} className="text-lime-500 animate-pulse" />
-                <AlertTriangle size={32} className="text-pink-500 animate-pulse" />
-                <Lock size={32} className="text-yellow-400 animate-pulse" />
-              </div>
-              
-              <label className="text-lime-500 text-xl font-bold mb-2 block animate-blink relative">
-                &gt; HÃY NHẬP SỐ NĂM BẠN ĐÃ TỒN TẠI TRÊN ĐỜI NÀY:
-                <span className="absolute -right-2 top-0 text-pink-500 animate-pulse">⚠️</span>
-                <span className="absolute left-0 top-0 text-red-500 animate-bounce">💀</span>
-              </label>
-              
-              {/* Input with More Decorations */}
-              <div className="relative" style={{ zIndex: 150, position: 'relative' }}>
-                <input
-                  type="text"
-                  value={age}
-                  onChange={(e) => setAge(e.target.value)}
-                  className="w-full bg-black border-4 border-lime-500 text-pink-500 text-6xl p-4 focus:outline-none focus:border-pink-500 focus:shadow-[0_0_30px_#ff00ff,0_0_60px_#ff00ff] transition-all font-['Courier_New'] text-center"
-                  placeholder="???"
+          {!loading && !result && (
+            <div className="flex flex-col gap-6" style={{ position: 'relative', zIndex: 100 }}>
+              <div className="relative group">
+                {/* Decorative Elements Around Input */}
+                <div className="absolute -top-8 left-0 right-0 flex justify-between pointer-events-none">
+                  <Skull size={32} className="text-lime-500 animate-pulse" />
+                  <AlertTriangle size={32} className="text-pink-500 animate-pulse" />
+                  <Lock size={32} className="text-yellow-400 animate-pulse" />
+                </div>
+
+                <label className="text-lime-500 text-xl font-bold mb-2 block animate-blink relative">
+                  &gt; NHập tuổi của bạn oke? :
+                  <span className="absolute -right-2 top-0 text-pink-500 animate-pulse">⚠️</span>
+                  <span className="absolute left-0 top-0 text-red-500 animate-bounce">💀</span>
+                </label>
+
+                {/* Input with More Decorations */}
+                <div className="relative" style={{ zIndex: 150, position: 'relative' }}>
+                  <input
+                    type="text"
+                    value={age}
+                    onChange={(e) => setAge(e.target.value)}
+                    className="w-full bg-black border-4 border-lime-500 text-pink-500 text-6xl p-4 focus:outline-none focus:border-pink-500 focus:shadow-[0_0_30px_#ff00ff,0_0_60px_#ff00ff] transition-all font-['Courier_New'] text-center"
+                    placeholder="???"
+                    style={{
+                      boxShadow: 'inset 0 0 20px rgba(57,255,20,0.3), 0 0 20px rgba(255,0,255,0.2)',
+                      position: 'relative',
+                      zIndex: 150,
+                      pointerEvents: 'auto',
+                      isolation: 'isolate'
+                    }}
+                  />
+
+                  {/* Animated Border Around Input */}
+                  <div className="absolute inset-0 border-4 border-pink-500 animate-pulse pointer-events-none" style={{
+                    boxShadow: '0 0 20px rgba(255,0,255,0.6)',
+                    zIndex: 5
+                  }}></div>
+
+                  {/* Corner Decorations */}
+                  <div className="absolute -top-2 -left-2 w-6 h-6 border-t-2 border-l-2 border-lime-500" style={{ animation: 'pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite' }}></div>
+                  <div className="absolute -top-2 -right-2 w-6 h-6 border-t-2 border-r-2 border-pink-500" style={{ animation: 'pulse 2s cubic-bezier(0.4, 0, 0.6, 1) 0.5s infinite' }}></div>
+                  <div className="absolute -bottom-2 -left-2 w-6 h-6 border-b-2 border-l-2 border-pink-500" style={{ animation: 'pulse 2s cubic-bezier(0.4, 0, 0.6, 1) 1s infinite' }}></div>
+                  <div className="absolute -bottom-2 -right-2 w-6 h-6 border-b-2 border-r-2 border-lime-500" style={{ animation: 'pulse 2s cubic-bezier(0.4, 0, 0.6, 1) 1.5s infinite' }}></div>
+                </div>
+
+                {/* Multiple Icons Around Input */}
+                <div className="absolute -right-6 -top-4 text-pink-500" style={{ animation: 'bounce 1s infinite' }}>
+                  <Skull size={48} />
+                </div>
+                <div className="absolute -left-6 -top-4 text-lime-500" style={{ animation: 'bounce 1s 0.3s infinite' }}>
+                  <AlertTriangle size={40} />
+                </div>
+                <img
+                  src={mainIcon}
+                  alt="icon"
+                  className="absolute -left-4 -bottom-4 w-12 h-12 animate-spin opacity-70"
+                  style={{ filter: 'drop-shadow(0 0 10px rgba(255,0,255,0.8))' }}
+                />
+                <img
+                  src={backgroundImages.length > 0 ? backgroundImages[0] : mainIcon}
+                  alt="icon"
+                  className="absolute -right-4 -bottom-4 w-10 h-10 animate-spin opacity-60"
                   style={{
-                    boxShadow: 'inset 0 0 20px rgba(57,255,20,0.3), 0 0 20px rgba(255,0,255,0.2)',
-                    position: 'relative',
-                    zIndex: 150,
-                    pointerEvents: 'auto',
-                    isolation: 'isolate'
+                    filter: 'drop-shadow(0 0 10px rgba(57,255,20,0.8))',
+                    animationDirection: 'reverse',
+                    animationDuration: '2s'
                   }}
                 />
-                
-                {/* Animated Border Around Input */}
-                <div className="absolute inset-0 border-4 border-pink-500 animate-pulse pointer-events-none" style={{ 
-                  boxShadow: '0 0 20px rgba(255,0,255,0.6)',
-                  zIndex: 5
-                }}></div>
-                
-                {/* Corner Decorations */}
-                <div className="absolute -top-2 -left-2 w-6 h-6 border-t-2 border-l-2 border-lime-500" style={{ animation: 'pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite' }}></div>
-                <div className="absolute -top-2 -right-2 w-6 h-6 border-t-2 border-r-2 border-pink-500" style={{ animation: 'pulse 2s cubic-bezier(0.4, 0, 0.6, 1) 0.5s infinite' }}></div>
-                <div className="absolute -bottom-2 -left-2 w-6 h-6 border-b-2 border-l-2 border-pink-500" style={{ animation: 'pulse 2s cubic-bezier(0.4, 0, 0.6, 1) 1s infinite' }}></div>
-                <div className="absolute -bottom-2 -right-2 w-6 h-6 border-b-2 border-r-2 border-lime-500" style={{ animation: 'pulse 2s cubic-bezier(0.4, 0, 0.6, 1) 1.5s infinite' }}></div>
+
+                {/* Floating Warning Text */}
+                <div className="absolute -bottom-8 left-1/2 transform -translate-x-1/2 text-red-500 text-xs font-bold animate-blink">
+                  ⚠️ CẢNH BÁO: HỆ THỐNG NGUY HIỂM ⚠️
+                </div>
               </div>
-              
-              {/* Multiple Icons Around Input */}
-              <div className="absolute -right-6 -top-4 text-pink-500" style={{ animation: 'bounce 1s infinite' }}>
-                <Skull size={48} />
-              </div>
-              <div className="absolute -left-6 -top-4 text-lime-500" style={{ animation: 'bounce 1s 0.3s infinite' }}>
-                <AlertTriangle size={40} />
-              </div>
-              <img 
-                src={mainIcon} 
-                alt="icon" 
-                className="absolute -left-4 -bottom-4 w-12 h-12 animate-spin opacity-70"
-                style={{ filter: 'drop-shadow(0 0 10px rgba(255,0,255,0.8))' }}
-              />
-              <img 
-                src={backgroundImages.length > 0 ? backgroundImages[0] : mainIcon} 
-                alt="icon" 
-                className="absolute -right-4 -bottom-4 w-10 h-10 animate-spin opacity-60"
-                style={{ 
-                  filter: 'drop-shadow(0 0 10px rgba(57,255,20,0.8))',
-                  animationDirection: 'reverse',
-                  animationDuration: '2s'
-                }}
-              />
-              
-              {/* Floating Warning Text */}
-              <div className="absolute -bottom-8 left-1/2 transform -translate-x-1/2 text-red-500 text-xs font-bold animate-blink">
-                ⚠️ CẢNH BÁO: HỆ THỐNG NGUY HIỂM ⚠️
+
+              <div className="relative" style={{ zIndex: 200, position: 'relative' }}>
+                {/* Decorative Icons Around Button - Outside */}
+                <div className="absolute -left-8 top-1/2 transform -translate-y-1/2 text-red-500 animate-spin pointer-events-none" style={{ animationDuration: '3s', zIndex: 1 }}>
+                  <Skull size={40} />
+                </div>
+                <div className="absolute -right-8 top-1/2 transform -translate-y-1/2 text-yellow-400 animate-spin pointer-events-none" style={{ animationDuration: '3s', animationDirection: 'reverse', zIndex: 1 }}>
+                  <Skull size={40} />
+                </div>
+                <div className="absolute top-0 left-1/2 transform -translate-x-1/2 -translate-y-8 text-pink-500 animate-bounce pointer-events-none" style={{ zIndex: 1 }}>
+                  <AlertTriangle size={32} />
+                </div>
+                <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 translate-y-8 text-lime-500 pointer-events-none" style={{ animation: 'bounce 1s 0.5s infinite', zIndex: 1 }}>
+                  <Lock size={32} />
+                </div>
+
+                {/* Main Button - Simple and Clickable */}
+                <button
+                  type="button"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    console.log('Button onClick triggered!', { age });
+                    handleCalculate();
+                  }}
+                  className="relative w-full bg-gradient-to-r from-blue-600 via-red-600 to-blue-600 hover:from-blue-700 hover:via-red-700 hover:to-blue-700 text-white text-2xl md:text-3xl font-bold py-6 px-8 border-4 border-white shadow-[0_0_30px_rgba(0,0,255,0.8),8px_8px_0px_0px_#000000] active:shadow-none active:translate-x-2 active:translate-y-2 transition-all hover:animate-shake font-['Comic_Sans_MS'] uppercase tracking-widest"
+                  style={{
+                    animation: 'borderGlow 2s ease-in-out infinite',
+                    boxShadow: '0 0 30px rgba(0,0,255,0.8), 0 0 60px rgba(255,0,0,0.6), 8px 8px 0px 0px #000000',
+                    position: 'relative',
+                    zIndex: 300,
+                    pointerEvents: 'auto',
+                    cursor: 'pointer',
+                    isolation: 'isolate',
+                    WebkitTapHighlightColor: 'transparent'
+                  }}
+                >
+                  {/* Simple Background Effect */}
+                  <div className="absolute inset-0 bg-gradient-to-r from-blue-600 via-red-600 to-blue-600 opacity-75 animate-pulse pointer-events-none" style={{ zIndex: 1 }}></div>
+
+                  {/* Button Text - Clickable Area */}
+                  <span className="relative z-50 flex items-center justify-center gap-4" style={{ pointerEvents: 'none', userSelect: 'none' }}>
+                    <Terminal size={32} className="animate-pulse" />
+                    <span className="relative">
+                      🔗 KẾT NỐI TỚI CIA 🔗
+                    </span>
+                    <AlertTriangle size={32} className="animate-pulse" />
+                  </span>
+                </button>
               </div>
             </div>
+          )}
 
-            <div className="relative" style={{ zIndex: 200, position: 'relative' }}>
-              {/* Decorative Icons Around Button - Outside */}
-              <div className="absolute -left-8 top-1/2 transform -translate-y-1/2 text-red-500 animate-spin pointer-events-none" style={{ animationDuration: '3s', zIndex: 1 }}>
-                <Skull size={40} />
-              </div>
-              <div className="absolute -right-8 top-1/2 transform -translate-y-1/2 text-yellow-400 animate-spin pointer-events-none" style={{ animationDuration: '3s', animationDirection: 'reverse', zIndex: 1 }}>
-                <Skull size={40} />
-              </div>
-              <div className="absolute top-0 left-1/2 transform -translate-x-1/2 -translate-y-8 text-pink-500 animate-bounce pointer-events-none" style={{ zIndex: 1 }}>
-                <AlertTriangle size={32} />
-              </div>
-              <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 translate-y-8 text-lime-500 pointer-events-none" style={{ animation: 'bounce 1s 0.5s infinite', zIndex: 1 }}>
-                <Lock size={32} />
+          {loading && (
+            <div className="bg-black border-4 border-lime-500 p-4 font-['Courier_New'] h-96 flex flex-col relative">
+              <div className="absolute top-2 right-2 animate-spin text-lime-500">
+                <Lock size={24} />
               </div>
 
-              {/* Main Button - Simple and Clickable */}
+              <div className="flex-1 overflow-y-auto mb-4 pr-2">
+                <div className="text-lime-500 text-lg space-y-2">
+                  {logs.map((log, index) => (
+                    <div key={index} className="break-words">
+                      <span className="text-pink-500 mr-2">[{new Date().toLocaleTimeString()}]</span>
+                      {log}
+                    </div>
+                  ))}
+                  <div ref={logsEndRef} />
+                </div>
+              </div>
+
+              <div className="pt-4 border-t border-lime-500/30 animate-pulse text-center text-pink-500 font-bold text-2xl">
+                ĐANG TÍNH TOÁN... {(logs.length / fakeLogs.length * 100).toFixed(0)}%
+              </div>
+              {fakeIP && (
+                <div className="text-xs text-red-500 mt-2 text-center animate-blink">
+                  IP TRUY VẾT: {fakeIP} | VỊ TRÍ: SOMEWHERE, VIỆT NAM
+                </div>
+              )}
+            </div>
+          )}
+
+          {result && (
+            <div className="text-center space-y-6 animate-bounce">
+              <div className="text-6xl md:text-8xl font-bold text-white drop-shadow-[4px_4px_0px_#ff00ff] font-['Comic_Sans_MS']">
+                {age}
+              </div>
+              <div className="text-2xl md:text-4xl text-lime-500 font-bold font-['Courier_New'] border-4 border-lime-500 p-4 bg-black/80">
+                {result}
+              </div>
+              <div className="text-xl text-pink-500 font-bold bg-white p-2 transform -rotate-2">
+                {trollMessage}
+              </div>
               <button
-                type="button"
-                onClick={(e) => {
-                  e.stopPropagation();
-                  console.log('Button onClick triggered!', { age });
-                  handleCalculate();
-                }}
-                className="relative w-full bg-gradient-to-r from-blue-600 via-red-600 to-blue-600 hover:from-blue-700 hover:via-red-700 hover:to-blue-700 text-white text-2xl md:text-3xl font-bold py-6 px-8 border-4 border-white shadow-[0_0_30px_rgba(0,0,255,0.8),8px_8px_0px_0px_#000000] active:shadow-none active:translate-x-2 active:translate-y-2 transition-all hover:animate-shake font-['Comic_Sans_MS'] uppercase tracking-widest"
-                style={{
-                  animation: 'borderGlow 2s ease-in-out infinite',
-                  boxShadow: '0 0 30px rgba(0,0,255,0.8), 0 0 60px rgba(255,0,0,0.6), 8px 8px 0px 0px #000000',
-                  position: 'relative',
-                  zIndex: 300,
-                  pointerEvents: 'auto',
-                  cursor: 'pointer',
-                  isolation: 'isolate',
-                  WebkitTapHighlightColor: 'transparent'
-                }}
+                onClick={() => { setResult(null); setAge(''); setTrollMessage(''); }}
+                className="mt-8 bg-lime-500 text-black font-bold py-3 px-6 hover:bg-lime-400 border-4 border-black shadow-[4px_4px_0px_0px_#ffffff]"
               >
-                {/* Simple Background Effect */}
-                <div className="absolute inset-0 bg-gradient-to-r from-blue-600 via-red-600 to-blue-600 opacity-75 animate-pulse pointer-events-none" style={{ zIndex: 1 }}></div>
-                
-                {/* Button Text - Clickable Area */}
-                <span className="relative z-50 flex items-center justify-center gap-4" style={{ pointerEvents: 'none', userSelect: 'none' }}>
-                  <Terminal size={32} className="animate-pulse" />
-                  <span className="relative">
-                    🔗 KẾT NỐI TỚI CIA 🔗
-                  </span>
-                  <AlertTriangle size={32} className="animate-pulse" />
-                </span>
+                TÍNH TOÁN LẠI
               </button>
             </div>
-          </div>
-        )}
+          )}
 
-        {loading && (
-          <div className="bg-black border-4 border-lime-500 p-4 font-['Courier_New'] h-96 overflow-hidden flex flex-col relative">
-            <div className="absolute top-2 right-2 animate-spin text-lime-500">
-              <Lock size={24} />
-            </div>
-            <div className="text-lime-500 text-lg space-y-2">
-              {logs.map((log, index) => (
-                <div key={index} className="break-words">
-                  <span className="text-pink-500 mr-2">[{new Date().toLocaleTimeString()}]</span>
-                  {log}
-                </div>
-              ))}
-              <div ref={logsEndRef} />
-            </div>
-            <div className="mt-auto pt-4 border-t border-lime-500/30 animate-pulse text-center text-pink-500 font-bold text-2xl">
-              ĐANG TÍNH TOÁN... {(logs.length / fakeLogs.length * 100).toFixed(0)}%
-            </div>
-            {fakeIP && (
-              <div className="text-xs text-red-500 mt-2 text-center animate-blink">
-                IP TRUY VẾT: {fakeIP} | VỊ TRÍ: HÀ NỘI, VIỆT NAM
+          {!loading && !result && trollMessage && (
+            <div className="mt-6 text-center">
+              <div className="text-2xl text-red-500 font-bold bg-yellow-300 p-4 border-4 border-red-500 transform rotate-2 animate-shake">
+                {trollMessage}
               </div>
-            )}
-          </div>
-        )}
-
-        {result && (
-          <div className="text-center space-y-6 animate-bounce">
-            <div className="text-6xl md:text-8xl font-bold text-white drop-shadow-[4px_4px_0px_#ff00ff] font-['Comic_Sans_MS']">
-              {age}
+              <button
+                onClick={() => { setTrollMessage(''); setAge(''); }}
+                className="mt-4 bg-lime-500 text-black font-bold py-2 px-4 hover:bg-lime-400 border-2 border-black"
+              >
+                THỬ LẠI
+              </button>
             </div>
-            <div className="text-2xl md:text-4xl text-lime-500 font-bold font-['Courier_New'] border-4 border-lime-500 p-4 bg-black/80">
-              {result}
-            </div>
-            <div className="text-xl text-pink-500 font-bold bg-white p-2 transform -rotate-2">
-              {trollMessage}
-            </div>
-            <button
-              onClick={() => { setResult(null); setAge(''); setTrollMessage(''); }}
-              className="mt-8 bg-lime-500 text-black font-bold py-3 px-6 hover:bg-lime-400 border-4 border-black shadow-[4px_4px_0px_0px_#ffffff]"
-            >
-              TÍNH TOÁN LẠI
-            </button>
-          </div>
-        )}
-
-        {!loading && !result && trollMessage && (
-          <div className="mt-6 text-center">
-            <div className="text-2xl text-red-500 font-bold bg-yellow-300 p-4 border-4 border-red-500 transform rotate-2 animate-shake">
-              {trollMessage}
-            </div>
-            <button
-              onClick={() => { setTrollMessage(''); setAge(''); }}
-              className="mt-4 bg-lime-500 text-black font-bold py-2 px-4 hover:bg-lime-400 border-2 border-black"
-            >
-              THỬ LẠI
-            </button>
-          </div>
-        )}
+          )}
         </div>
         {/* End Content Wrapper */}
       </div>
       {/* End Main Container */}
 
       <div className="fixed bottom-4 right-4 text-white/50 text-xs font-mono">
-        v4.2.0 - ĐƯỢC PHÁT TRIỂN BỞI ĐĂNG KHOA - KHÔNG ĐƯỢC PHÂN PHỐI
+        v3.6.0 - Đăng Khoa làm ra cái này đấy - bủh buh lmao
       </div>
       {fakeIP && loading && (
         <div className="fixed bottom-4 left-4 text-red-500 text-xs font-mono animate-blink border-2 border-red-500 p-2 bg-black/80">
