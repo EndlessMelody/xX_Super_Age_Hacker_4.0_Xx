@@ -1,4 +1,4 @@
-# xX_Super_Age_Hacker_4.0_Xx (Wibu Edition)
+# xX_Super_Age_Hacker_4.0_Xx (SO proooo)
 
 ## Executive Summary
 
