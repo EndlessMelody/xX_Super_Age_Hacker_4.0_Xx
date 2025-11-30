@@ -1,7 +1,7 @@
-import SuperAgeHacker from './SuperAgeHacker';
+import SmartAgeCalculator from './SmartAgeCalculator';
 
 function App() {
-  return <SuperAgeHacker />;
+  return <SmartAgeCalculator />;
 }
 
 export default App;
