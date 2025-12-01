@@ -1,8 +1,8 @@
-# xX_Super_Age_Hacker_4.0_Xx (SO proooo)
+# xX_Super_Age_Hacker_3.6_Xx (SO proooo)
 
 ## Executive Summary
 
-Welcome to **xX_Super_Age_Hacker_4.0_Xx**, the pinnacle of cyber-computational engineering. This is not merely a web application; it is a sophisticated digital entity designed to penetrate the deepest layers of the user's psyche while performing complex temporal calculations (subtraction). Developed by the legendary **Dang Khoa**, this project represents the convergence of chaotic energy, questionable design ethics, and raw coding power.
+Welcome to **xX_Super_Age_Hacker_3.6_Xx**, the pinnacle of cyber-computational engineering. This is not merely a web application; it is a sophisticated digital entity designed to penetrate the deepest layers of the user's psyche while performing complex temporal calculations (subtraction). Developed by the legendary **Dang Khoa**, this project represents the convergence of chaotic energy, questionable design ethics, and raw coding power.
 
 ## System Overview
 
